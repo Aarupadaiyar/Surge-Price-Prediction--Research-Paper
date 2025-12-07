@@ -1,216 +1,208 @@
-# Surge-Price-Prediction--Research-Paper
-Title:
+# 🚖 Machine Learning–Based Surge Price Prediction  
+### Using Weather, Traffic, and Demand Data
 
-Machine Learning–Based Surge Price Prediction for Ride-Sharing Platforms Using Weather, Traffic, and Demand Data
+## **Author**
+**Aarupadaiyaar KJ**  
+School of Computer Science, Lovely Professional University  
 
-Author:
+---
 
-Aarupadaiyaar KJ
-School of Computer Science, Lovely Professional University
+# 📌 **Overview**
 
-🚀 Project Overview
+This project predicts **surge pricing** in ride-sharing platforms (Uber, Ola, Rapido) using **Machine Learning**.  
+Two types of predictions are made:
 
-This research project investigates how surge pricing in ride-hailing platforms (Uber, Ola, Rapido, etc.) can be predicted using machine learning models. Surge pricing is influenced by real-time weather, traffic congestion, and demand levels.
+1. **Classification** → Will surge happen? (0 or 1)  
+2. **Regression** → How much surge multiplier will occur? (1.0 – 2.0)  
 
-The goal of this project is to:
+The dataset is built using **real APIs**, **traffic data**, and **synthetic modeling** to mimic real ride-hailing behavior in India.
 
-Predict whether surge pricing will occur (classification)
+---
 
-Predict how much surge multiplier will apply (regression)
+# 📊 **Dataset Summary**
 
-The dataset was created using real-world APIs, publicly available traffic data, and synthetic modeling, making it highly realistic and suitable for academic research.
+This project integrates data from:
 
-📊 Dataset Description
+### ✅ **1. Weather API — Open-Meteo**
+- temperature_2m  
+- relativehumidity_2m  
+- rain  
 
-The dataset combines:
+### ✅ **2. Traffic Data — TomTom Index**
+- congestion_level for 7 Indian cities
 
-1. Weather Data (API — Open-Meteo)
+### ✅ **3. Fare Structure (Ola/Uber-like)**
+Includes values for:
+- base_fare_per_km  
+- minimum_fare  
+- booking_fee  
+- night_multiplier  
 
-Fetched hourly for 7 major Indian cities:
-
-Temperature
-
-Relative humidity
-
-Rainfall
-
-2. Traffic Data (TomTom Congestion Index)
-
-For each city:
-
-Average congestion level
-
-Peak congestion indicators
-
-3. Fare Structure Data (Based on Ola/Uber pricing)
-
-For each vehicle type:
-
-Base fare per km
-
-Minimum fare
-
-Booking fee
-
-Night multiplier
-
-Vehicle types included:
-
+Vehicle types:
+```
 Bike, Auto, Mini, Sedan, SUV
+```
 
-4. Synthetic Features
+### ✅ **4. Synthetic Data Generation**
+- distance_km (using realistic distribution)  
+- demand_level (based on hour + rain)  
+- surge_multiplier (behavior-based rules)  
+- surge_flag (0 or 1)  
 
-To realistically simulate ride-hailing patterns:
+---
 
-Distance distribution (70% short, 20% medium, 10% long)
+# 🧠 **Features Included**
 
-Demand level based on time-of-day + weather
+| Category | Features |
+|---------|----------|
+| Time | hour, month, season |
+| Weather | temperature_2m, humidity, rain |
+| Traffic | congestion_level |
+| Fare | base_fare_per_km, minimum_fare, booking_fee, night_multiplier |
+| Vehicle | vehicle_type |
+| Demand | demand_level |
+| Target (Classification) | surge_flag |
+| Target (Regression) | surge_multiplier |
+| Output | total_fare |
 
-Surge multiplier modeled using rule-based and contextual factors
+Dataset size: **~100,000 rows**  
 
-Surge flag (1 = surge, 0 = no surge)
+---
 
-🏗️ Feature Columns
-Category	Variables
-Weather	temperature_2m, relativehumidity_2m, rain
-Time	hour, month, season
-Traffic	congestion_level
-Vehicle	vehicle_type
-Fare	base_fare_per_km, minimum_fare, booking_fee, night_multiplier
-Demand	demand_level
-Target (Classification)	surge_flag
-Target (Regression)	surge_multiplier
-Final Output	total_fare
+# 🏗️ **Project Structure**
 
-Dataset size: ~100,000 rows
-Merged from weather + traffic + fare + synthetic ride-generation pipeline.
-
-🧠 Machine Learning Models Used
-Classification (Surge or No Surge)
-
-LightGBM Classifier
-
-XGBoost Classifier
-
-Random Forest Classifier
-
-Regression (Predict Surge Multiplier)
-
-Extra Trees Regressor
-
-XGBoost Regressor
-
-Random Forest Regressor
-
-These models were selected based on literature analysis and their performance on structured/tabular data.
-
-🧪 Results Summary
-Classification Models
-
-Moderate accuracy (reflects real-world unpredictability of surge behavior)
-
-Influenced most by demand, rainfall, and congestion
-
-Regression Models
-
-Achieved R² ≈ 1.0 due to deterministic fare logic
-
-Extra Trees performed exceptionally well
-
-Very low MAE and RMSE values
-
-📁 Repository Structure (Recommended)
+```
 📦 Surge-Price-Prediction
  ┣ 📂 data/
  ┃ ┣ weather_data.csv
  ┃ ┣ traffic_data.csv
- ┃ ┣ fare_structure.csv
+ ┃ ┣ fare_data.csv
  ┃ ┗ final_dataset.csv
+ ┣ 📂 models/
+ ┃ ┣ classification/
+ ┃ ┃ ┣ lightgbm_classifier.pkl
+ ┃ ┃ ┣ xgboost_classifier.pkl
+ ┃ ┃ ┗ random_forest_classifier.pkl
+ ┃ ┗ regression/
+ ┃   ┣ extratrees_regressor.pkl
+ ┃   ┣ xgboost_regressor.pkl
+ ┃   ┗ random_forest_regressor.pkl
  ┣ 📂 notebooks/
  ┃ ┗ surge_prediction.ipynb
- ┣ 📂 models/
- ┃ ┣ classification_models.pkl
- ┃ ┗ regression_models.pkl
+ ┣ 📂 src/
+ ┃ ┣ data_collection.py
+ ┃ ┣ data_preprocessing.py
+ ┃ ┣ feature_engineering.py
+ ┃ ┣ model_training.py
+ ┃ ┗ model_evaluation.py
+ ┣ 📄 requirements.txt
  ┣ 📄 README.md
- ┣ 📄 research_paper.pdf
  ┣ 📄 research_paper.docx
- ┗ 📄 requirements.txt
+ ┗ 📄 research_paper.pdf
+```
 
-🔍 Research Paper Components
+---
 
-The IEEE-format research paper includes:
+# ⚙️ **Installation**
 
-Abstract
+Install dependencies:
 
-Introduction
+```bash
+pip install -r requirements.txt
+```
 
-Literature Review
+---
 
-Data Collection Strategy
+# ▶️ **Usage**
 
-Methodology
+### **1. Run full pipeline**
+```bash
+python src/model_training.py
+```
 
-ML Model Architecture
+### **2. Train only classification models**
+```bash
+python src/model_training.py --task classification
+```
 
-Results & Discussion
+### **3. Train only regression models**
+```bash
+python src/model_training.py --task regression
+```
 
-System Architecture Diagram
+### **4. Open the notebook**
+```
+notebooks/surge_prediction.ipynb
+```
 
-Error Analysis
+---
 
-Limitations
+# 🤖 **Machine Learning Models Used**
 
-Future Work
+### **Classification Models**
+- LightGBM Classifier  
+- XGBoost Classifier  
+- Random Forest Classifier  
 
-References
+### **Regression Models**
+- Extra Trees Regressor  
+- XGBoost Regressor  
+- Random Forest Regressor  
 
-⚙️ How to Run the Project
-1. Install dependencies
-pip install numpy pandas scikit-learn lightgbm xgboost requests
+---
 
-2. Run the main script
-python surge_prediction.py
+# 🧪 **Results Summary**
 
-3. View results
+### **Classification**
+- Moderate performance  
+- Surge prediction accuracy depends on demand, rainfall & traffic  
 
-Classification accuracy
+### **Regression**
+- **R² Score ≈ 1.0**  
+- Surge multiplier prediction extremely accurate  
+- Extra Trees & Random Forest perform best  
 
-Regression metrics
+---
 
-Feature importance chart
+# 📈 **Feature Importance**
 
-📌 Key Highlights of This Project
+Top predictors include:
+- demand_level  
+- congestion_level  
+- rain  
+- distance_km  
+- vehicle_type  
+- night_multiplier  
+- base_fare_per_km  
 
-✔ Uses real APIs for weather
-✔ Includes real traffic metrics from TomTom
-✔ Fare structure based on public Ola/Uber data
-✔ Realistic synthetic ride generation
-✔ Full ML pipeline implemented
-✔ IEEE-format research paper ready for submission
-✔ Results are interpretable and academically strong
+---
 
-📌 Future Work
+# 📝 **Research Paper**
+Full IEEE-format research paper included:  
+```
+research_paper.docx  
+research_paper.pdf
+```
 
-Future improvements may include:
+---
 
-Integrating real mobility datasets (Uber Movement, Google Traffic)
+# 🔮 **Future Work**
+- Use LSTM or Temporal ML for time-series surge prediction  
+- Integrate real Uber Movement or Google mobility data  
+- Build a live dashboard for real-time surge prediction  
 
-Building a deep-learning model (LSTM for time-series surge prediction)
+---
 
-Adding real supply-side data (number of active drivers)
+# 📜 **License**
+This project is for research and educational purposes only.
 
-Deploying a real-time surge prediction dashboard
+---
 
-📝 License
+# 🙏 **Acknowledgements**
+- Open-Meteo API  
+- TomTom Traffic Index  
+- Ola/Uber fare charts  
+- Lovely Professional University  
 
-This project is for academic research and educational use.
+---
 
-🙌 Acknowledgements
-
-Open-Meteo API
-
-TomTom Traffic Index
-
-Ola/Uber fare documentation
-
-Lovely Professional University (LPU)
